@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<title>Report cuffie over-ear ANC</title>
+<style>
+  body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 0; background: #050816; color: #f5f5f5; }
+  header { padding: 24px 32px; background: radial-gradient(circle at top left, #4f46e5, #020617); box-shadow: 0 12px 40px rgba(0,0,0,.6); position: sticky; top: 0; z-index: 10; }
+  h1 { margin: 0; font-size: 26px; letter-spacing: .04em; text-transform: uppercase; }
+  h2 { margin-top: 40px; font-size: 22px; border-left: 4px solid #4f46e5; padding-left: 12px; }
+  h3 { margin-top: 24px; font-size: 18px; }
+  main { padding: 24px 32px 40px; max-width: 1100px; margin: 0 auto; }
+  .tagline { margin-top: 4px; color: #cbd5f5; font-size: 14px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: rgba(15,23,42,.85); color: #e5e7eb; font-size: 12px; margin-top: 12px; border: 1px solid rgba(148,163,184,.5); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 18px; margin-top: 16px; }
+  .card { background: radial-gradient(circle at top, rgba(79,70,229,.14), rgba(15,23,42,.98)); border-radius: 18px; border: 1px solid rgba(148,163,184,.3); padding: 18px 18px 16px; box-shadow: 0 18px 40px rgba(15,23,42,.9); position: relative; overflow: hidden; }
+  .card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 0 -40%, rgba(129,140,248,.4), transparent 60%); opacity: .6; pointer-events: none; }
+  .card h3 { margin-top: 0; margin-bottom: 4px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; background: rgba(15,23,42,.9); border: 1px solid rgba(148,163,184,.5); color: #e5e7eb; }
+  .kv { font-size: 13px; margin-top: 8px; color: #e5e7eb; }
+  .kv strong { color: #e5e7eb; }
+  .pros-cons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; font-size: 13px; }
+  .pros-cons h4 { margin: 0 0 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: #a5b4fc; }
+  .pros-cons ul { margin: 0; padding-left: 16px; color: #e5e7eb; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .chip { padding: 2px 8px; border-radius: 999px; background: rgba(15,23,42,.95); border: 1px solid rgba(148,163,184,.4); font-size: 11px; color: #cbd5f5; }
+  .chart-section { margin-top: 32px; padding: 18px 18px 14px; border-radius: 18px; background: radial-gradient(circle at top, rgba(56,189,248,.18), rgba(15,23,42,.98)); border: 1px solid rgba(59,130,246,.4); box-shadow: 0 18px 40px rgba(15,23,42,.9); }
+  .chart-row { display: grid; grid-template-columns: 140px minmax(0,1fr); gap: 14px; align-items: center; margin: 8px 0; font-size: 13px; }
+  .chart-label { color: #e5e7eb; }
+  .bar-track { height: 8px; border-radius: 999px; background: rgba(15,23,42,1); overflow: hidden; border: 1px solid rgba(148,163,184,.5); }
+  .bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg,#22c55e,#a3e635); box-shadow: 0 0 14px rgba(34,197,94,.6); }
+  .bar-fill.secondary { background: linear-gradient(90deg,#38bdf8,#6366f1); box-shadow: 0 0 14px rgba(56,189,248,.65); }
+  .bar-fill.accent { background: linear-gradient(90deg,#f97316,#ec4899); box-shadow: 0 0 14px rgba(249,115,22,.7); }
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 11px; color: #cbd5f5; }
+  .legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .swatch { width: 10px; height: 10px; border-radius: 999px; }
+  .swatch.m4 { background: linear-gradient(90deg,#22c55e,#a3e635); }
+  .swatch.qc { background: linear-gradient(90deg,#38bdf8,#6366f1); }
+  .swatch.px7 { background: linear-gradient(90deg,#f97316,#ec4899); }
+  .swatch.xh1 { background: linear-gradient(90deg,#eab308,#f97316); }
+  .swatch.xm5 { background: linear-gradient(90deg,#a855f7,#22c55e); }
+  .swatch.ace { background: linear-gradient(90deg,#0ea5e9,#6366f1); }
+  .note { font-size: 11px; color: #9ca3af; margin-top: 8px; }
+  footer { padding: 16px 32px 24px; font-size: 11px; color: #6b7280; text-align: right; border-top: 1px solid rgba(31,41,55,1); background: #020617; }
+  @media (max-width: 700px) {
+    header, main, footer { padding-left: 18px; padding-right: 18px; }
+    .chart-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Report cuffie over‑ear ANC</h1>
+  <div class="tagline">Confronto rapido per film, musica e uso in ambienti rumorosi</div>
+  <div class="pill">Focus: immersione nei film · ANC · qualità costruttiva</div>
+</header>
+<main>
+  <h2>Panoramica modelli</h2>
+  <div class="grid">
+    <article class="card">
+      <span class="badge">Sennheiser</span>
+      <h3>MOMENTUM 4 Wireless</h3>
+      <div class="kv"><strong>Profilo:</strong> equilibrio ideale fra audio, ANC e autonomia.</div>
+      <div class="chip-row">
+        <span class="chip">Suono caldo e dettagliato</span>
+        <span class="chip">ANC molto buono</span>
+        <span class="chip">≈ 60 h batteria</span>
+      </div>
+      <div class="pros-cons">
+        <div>
+          <h4>Pro</h4>
+          <ul>
+            <li>Ottimo mix per film e musica.</li>
+            <li>Autonomia elevatissima per viaggi e binge‑watching.</li>
+            <li>App con EQ e funzioni smart complete.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contro</h4>
+          <ul>
+            <li>ANC leggermente sotto ai campioni assoluti.</li>
+            <li>Look sobrio, meno “scenico” di altre cuffie.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <span class="badge">Bose</span>
+      <h3>QuietComfort SC</h3>
+      <div class="kv"><strong>Profilo:</strong> comfort e cancellazione del rumore al top.</div>
+      <div class="chip-row">
+        <span class="chip">ANC di riferimento</span>
+        <span class="chip">Molto leggere</span>
+        <span class="chip">≈ 24 h batteria</span>
+      </div>
+      <div class="pros-cons">
+        <div>
+          <h4>Pro</h4>
+          <ul>
+            <li>“Bolla di silenzio” per film ed effetti speciali.</li>
+            <li>Comfort eccellente per molte ore.</li>
+            <li>App Bose con EQ e modalità personalizzate.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contro</h4>
+          <ul>
+            <li>Autonomia inferiore a MOMENTUM 4.</li>
+            <li>Materiali molto leggeri, meno “metal feel”.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <span class="badge">Bowers &amp; Wilkins</span>
+      <h3>Px7 S2e</h3>
+      <div class="kv"><strong>Profilo:</strong> resa audio raffinata, pensata per ascolto critico.</div>
+      <div class="chip-row">
+        <span class="chip">Dettaglio e scena</span>
+        <span class="chip">Design premium</span>
+        <span class="chip">≈ 30 h batteria</span>
+      </div>
+      <div class="pros-cons">
+        <div>
+          <h4>Pro</h4>
+          <ul>
+            <li>Molto coinvolgenti con musica e colonne sonore.</li>
+            <li>Costruzione e finiture di livello alto.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contro</h4>
+          <ul>
+            <li>ANC buono ma inferiore a Bose/Sony.</li>
+            <li>Serraggio un po' più deciso su alcune teste.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <span class="badge">Baseus</span>
+      <h3>Inspire XH1</h3>
+      <div class="kv"><strong>Profilo:</strong> best‑buy per autonomia e prezzo.</div>
+      <div class="chip-row">
+        <span class="chip">Prezzo aggressivo</span>
+        <span class="chip">ANC onesta</span>
+        <span class="chip">Fino a 100 h batteria</span>
+      </div>
+      <div class="pros-cons">
+        <div>
+          <h4>Pro</h4>
+          <ul>
+            <li>Rapporto qualità/prezzo molto alto.</li>
+            <li>Autonomia enorme per uso misto.</li>
+            <li>Suono bilanciato, piacevole out‑of‑the‑box.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contro</h4>
+          <ul>
+            <li>ANC sotto ai modelli top.</li>
+            <li>Feeling complessivo meno “premium”.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <span class="badge">Sony</span>
+      <h3>WH‑1000XM5</h3>
+      <div class="kv"><strong>Profilo:</strong> all‑rounder con ANC eccellente e funzioni smart.</div>
+      <div class="chip-row">
+        <span class="chip">ANC di fascia altissima</span>
+        <span class="chip">Suono caldo</span>
+        <span class="chip">≈ 30 h batteria</span>
+      </div>
+      <div class="pros-cons">
+        <div>
+          <h4>Pro</h4>
+          <ul>
+            <li>Molto versatili per film, musica e lavoro.</li>
+            <li>App completa, audio spaziale e tante automazioni.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contro</h4>
+          <ul>
+            <li>Design più “plastico” e meno robusto a vista.</li>
+            <li>Archetto lungo meno compatto in borsa.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+
+  </div>
+
+  <h2>Grafici comparativi</h2>
+  <section class="chart-section">
+    <h3>Livello di cancellazione del rumore</h3>
+    <div class="chart-row">
+      <div class="chart-label">MOMENTUM 4</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 88%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Bose QC SC</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 95%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Px7 S2e</div>
+      <div class="bar-track"><div class="bar-fill accent" style="width: 80%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Baseus XH1</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 75%; background: linear-gradient(90deg,#eab308,#f97316);"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Sony XM5</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 93%"></div></div>
+    </div>
+    <div class="legend">
+      <span><span class="swatch m4"></span>MOMENTUM 4</span>
+      <span><span class="swatch qc"></span>Bose QC SC</span>
+      <span><span class="swatch px7"></span>B&amp;W Px7 S2e</span>
+      <span><span class="swatch xh1"></span>Baseus Inspire XH1</span>
+      <span><span class="swatch xm5"></span>Sony WH‑1000XM5</span>
+    </div>
+    <p class="note">Valori qualitativi (0‑100) derivati da confronti di test indipendenti: Bose e Sony leggermente avanti, Sennheiser a ruota, B&amp;W e Baseus più indietro ma comunque validi.</p>
+  </section>
+
+  <section class="chart-section">
+    <h3>Autonomia dichiarata (ore)</h3>
+    <div class="chart-row">
+      <div class="chart-label">MOMENTUM 4</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 80%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Bose QC SC</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 45%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Px7 S2e</div>
+      <div class="bar-track"><div class="bar-fill accent" style="width: 55%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Baseus XH1</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 100%; background: linear-gradient(90deg,#eab308,#f97316);"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Sony XM5</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 60%"></div></div>
+    </div>
+    <p class="note">Normalizzato su una scala 0‑100 dove Baseus (≈100 h) è il massimo, MOMENTUM 4 (≈60 h) molto vicino, Bose e Px7 su valori intermedi, Sony intorno alle 30 h.</p>
+  </section>
+
+  <section class="chart-section">
+    <h3>Comfort &amp; qualità costruttiva percepita</h3>
+    <div class="chart-row">
+      <div class="chart-label">MOMENTUM 4</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 88%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Bose QC SC</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 92%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Px7 S2e</div>
+      <div class="bar-track"><div class="bar-fill accent" style="width: 90%"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Baseus XH1</div>
+      <div class="bar-track"><div class="bar-fill" style="width: 70%; background: linear-gradient(90deg,#eab308,#f97316);"></div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-label">Sony XM5</div>
+      <div class="bar-track"><div class="bar-fill secondary" style="width: 85%"></div></div>
+    </div>
+    <p class="note">Comfort: Bose &gt; Momentum 4 ≈ Sony; qualità percepita dei materiali: B&amp;W molto alta, Sennheiser e Sony premium, Baseus più semplice.</p>
+  </section>
+
+  <h2>Come leggere il report</h2>
+  <p style="font-size:13px; color:#d1d5db; line-height:1.6; max-width:720px;">
+    Usa le card per un colpo d'occhio sui pro/contro di ciascun modello e i grafici per vedere dove ogni cuffia eccelle:
+    <strong>Bose QC SC</strong> e <strong>Sony XM5</strong> per la cancellazione del rumore,
+    <strong>MOMENTUM 4</strong> per il rapporto fra autonomia, suono e ANC,
+    <strong>Px7 S2e</strong> per la raffinatezza sonora e
+    <strong>Baseus XH1</strong> se vuoi massima batteria con budget più basso.
+  </p>
+</main>
+<footer>
+  Report statico per uso personale · Puoi modificare colori e punteggi nel codice HTML per adattarlo alle tue preferenze.
+</footer>
+</body>
+</html>
